@@ -1,13 +1,10 @@
-use std::error::Error;
+use crate::name::{Name, NameFmt};
 
-use crate::user::{NameStyle, User};
+mod name;
 
-mod user;
-
-fn main() -> Result<(), Box<dyn Error>> {
-    let user = User::new("alice");
-    println!("{}", user.name(NameStyle::Raw)?);
-    println!("{}", user.name(NameStyle::template("<<{name}>>"))?);
-
-    Ok(())
+fn main() {
+    let fmt = NameFmt::template("<h1>{name}</h1>");
+    let name = Name::from("Alice");
+    assert_eq!(name.show(&fmt), "<h1>Alice</h1>");
+    assert_eq!(name.show(NameFmt::Raw), "Alice");
 }
